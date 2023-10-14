@@ -17,7 +17,12 @@ void addE_R(map <char,Enrutador> &mR);
 
 void editE_R(map <char,Enrutador> &mR);
 
+void deleE_R(map <char,Enrutador> &mR);
 
+
+
+
+int verifiE_R(map <char,Enrutador> &mR, char origen, char destino);
 
 int str2int(string a);                                     //convierte un string a un numero entero
 

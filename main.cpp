@@ -53,6 +53,9 @@ int main(){
         else if(opcion==4)
             editE_R(mR);
 
+        else if(opcion==5)
+            deleE_R(mR);
+
         else if(opcion==0)
             cout<<"El programa a finalizado."<<endl;
 
