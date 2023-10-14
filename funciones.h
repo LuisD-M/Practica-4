@@ -13,6 +13,12 @@ void iniciarenrutador(map <char,Enrutador> &mR);
 
 void vertablaRed(map <char,Enrutador> &mR);
 
+void addE_R(map <char,Enrutador> &mR);
+
+void editE_R(map <char,Enrutador> &mR);
+
+
+
 int str2int(string a);                                     //convierte un string a un numero entero
 
 string int2str(int a);                         //convierte un un numero entero a un string

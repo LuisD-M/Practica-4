@@ -18,23 +18,13 @@ bool Enrutador::editenlace(char enlace, int costo_nuevo){
     return false;
 }
 
-
 void Enrutador::verenrutador(char rut){
 
-    // Impresion de los enlaces que posee mi router
     int j=cos.size();
 
-    //cout<<"-----";
-
-    //for(int i=0 ; i<j ; i++) cout<<"----";
-
-    cout << endl<< "  ";
+    cout <<"Enrutador "<<rut<<", tabla de enrutamiento.  "<<endl<< "  ";
 
     for(r=cos.begin();r!=cos.end();r++) cout << ' ' << r->first << "  ";
-
-    //cout << endl << "-----";
-
-   // for(int i=0;i<j;i++) cout<<"----";
 
     cout << endl << rut <<"|";
 
@@ -43,7 +33,6 @@ void Enrutador::verenrutador(char rut){
         else if(((r->second)/10)<10) cout << ' ' << r->second << " ";
         else if(((r->second)/100)<10) cout << r->second << " ";
     }
-    //cout << endl<<"-----";
-    //for(int i=0 ; i<j ; i++) cout<<"----";
-    //cout << endl;
+
+    cout<<endl;
 }

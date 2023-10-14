@@ -39,6 +39,7 @@ int main(){
 
         else if(opcion==2){
             cout << "Ingrese la letra del enrutador deseado: "; cin >> a;
+            cout<<endl;
 
             iR = mR.find(a);
 
@@ -46,9 +47,16 @@ int main(){
             else cout << "El enrutador ingresado no esta en la red " << endl;
         }
 
-        else if(opcion==0){
+        else if(opcion==3)
+            addE_R(mR);
+
+        else if(opcion==4)
+            editE_R(mR);
+
+        else if(opcion==0)
             cout<<"El programa a finalizado."<<endl;
-        }
+
+
         else cout<<"Opcion incorrecta."<<endl;
     }
 

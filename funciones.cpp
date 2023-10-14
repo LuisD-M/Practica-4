@@ -7,12 +7,13 @@ using namespace std;
 int menu(){
     int x;
     cout<<"------------ Menu de opciones ----------"<<endl;
-    cout<<"1. Ver tabla General. "<<endl;
-    cout<<"2. Ver tabla de un Enrutador. "<<endl;
+    cout<<"1. Ver tabla general. "<<endl;
+    cout<<"2. Ver tabla de un enrutador. "<<endl;
+    cout<<"3. Insertar enlace entre enrutadores. "<<endl;
+    cout<<"4. Editar enlace entre enrutadores. "<<endl;
     cout<<"0. Para finalizar."<<endl;
 
     cout<<"Ingrese la opcion deseada: "; cin>>x;
-    cout<<endl;
     return x;
 }
 
@@ -23,7 +24,6 @@ int menuRED(){
     cout << " 1. Cargar la red guardada en el archivo txt. " << endl;
 
     cout << " Escoga la opcion deseada: "; cin>>x;
-    cout<<endl;
 
     return x;
 }
@@ -131,9 +131,77 @@ void vertablaRed(map <char,Enrutador> &mR){
     }
 }
 
+void addE_R(map <char,Enrutador> &mR){
+    char origen, destino;
+    int costo=0;
+    map <char,Enrutador>::iterator rf;
 
+    cout<<"Ingrese el enrutador de origen: "; cin>>origen;
+    cout<<"Ingrese el enrutador de destino: "; cin>>destino;
 
+    rf = mR.find(origen);
+    if(rf == mR.end()){
+        cout<<"El Enrutador "<<origen<<" no existe en la red"<< endl;
+        return; }
 
+    rf=mR.find(destino);
+    if(rf==mR.end()){
+        cout<<"El Enrutador "<<destino<<" no existe en la red"<<endl;
+        return; }
+
+    if(origen==destino){
+        cout<<"El enlace "<<origen<<"-"<<destino<<" no es posible agregarlo"<<endl;
+        return; }
+
+    rf = mR.find(origen);
+    auto r = rf->second.cos.find(destino);
+
+    if (r != rf->second.cos.end())
+        cout<<"El enlace "<<origen<<"-"<<destino<<" ya se encuentra establecido. "<<endl;
+
+    else{
+        cout<<"Ingrese el costo del nuevo enlace entre "<<origen<<"-"<<destino<<" : "; cin>>costo;
+        (mR[origen].cos).insert(pair<char,int >(destino,costo)); //agrega un costo al nuevo enlace entre los 2 enrutadores
+        (mR[destino].cos).insert(pair<char,int >(origen,costo));
+        cout<<"El enlace "<<origen<<"-"<<destino<<" fue agregado co un costo de: "<<costo<<endl;
+    }
+
+}
+
+void editE_R(map <char,Enrutador> &mR){
+    char origen, destino;
+    int costo=0;
+    map <char,Enrutador>::iterator rf;
+
+    cout<<"Ingrese el enrutador de origen: "; cin>>origen;
+    cout<<"Ingrese el enrutador de destino: "; cin>>destino;
+
+    rf = mR.find(origen);
+    if(rf == mR.end()){
+        cout<<"El Enrutador "<<origen<<" no existe en la red"<< endl;
+        return; }
+
+    rf=mR.find(destino);
+    if(rf==mR.end()){
+        cout<<"El Enrutador "<<destino<<" no existe en la red"<<endl;
+        return; }
+
+    if(origen==destino){
+        cout<<"El enlace "<<origen<<"-"<<destino<<" no es posible editarlo"<<endl;
+        return; }
+
+    rf = mR.find(origen);
+    auto r = rf->second.cos.find(destino);
+
+    if (r != rf->second.cos.end()){
+        cout<<"Ingrese el nuevo costo del enlace entre "<<origen<<"-"<<destino<<" : "; cin>>costo;
+        mR[origen].editenlace(destino,costo);
+        mR[destino].editenlace(origen,costo);
+        cout<<endl<<"Se a modificado el costo del enlace "<<origen<<"-"<<destino<<endl;
+    }
+    else
+        cout<<"El enlace "<<origen<<"-"<<destino<<" aun no ce encuentra agregado."<<endl;
+}
 
 
 
