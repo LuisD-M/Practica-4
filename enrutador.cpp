@@ -1,4 +1,6 @@
 #include "enrutador.h"
+#include <iostream>
+using namespace std;
 
 bool Enrutador::addenlace(char enlace,int costo){
     r = cos.find(enlace);                                                      // buscar si existe un enlance con la clave enlace
@@ -17,4 +19,31 @@ bool Enrutador::editenlace(char enlace, int costo_nuevo){
 }
 
 
+void Enrutador::verenrutador(char rut){
 
+    // Impresion de los enlaces que posee mi router
+    int j=cos.size();
+
+    //cout<<"-----";
+
+    //for(int i=0 ; i<j ; i++) cout<<"----";
+
+    cout << endl<< "  ";
+
+    for(r=cos.begin();r!=cos.end();r++) cout << ' ' << r->first << "  ";
+
+    //cout << endl << "-----";
+
+   // for(int i=0;i<j;i++) cout<<"----";
+
+    cout << endl << rut <<"|";
+
+    for(r=cos.begin() ; r!=cos.end() ; r++){
+        if((r->second)<10) cout << ' ' << r->second << "  ";
+        else if(((r->second)/10)<10) cout << ' ' << r->second << " ";
+        else if(((r->second)/100)<10) cout << r->second << " ";
+    }
+    //cout << endl<<"-----";
+    //for(int i=0 ; i<j ; i++) cout<<"----";
+    //cout << endl;
+}

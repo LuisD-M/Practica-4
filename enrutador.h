@@ -18,6 +18,7 @@ public:
     map <char,int > cos;
     bool addenlace(char enlace, int costo);
     bool editenlace(char enlace, int costo_nuevo);
+    void verenrutador(char rut);
 };
 
 #endif // ENRUTADOR_H
