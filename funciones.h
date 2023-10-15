@@ -19,10 +19,15 @@ void editE_R(map <char,Enrutador> &mR);
 
 void deleE_R(map <char,Enrutador> &mR);
 
+void addR(map <char,Enrutador> &mR);
 
+void deleR(map <char,Enrutador> &mR);
 
+void addRED(map <char,Enrutador> &mR);
 
 int verifiE_R(map <char,Enrutador> &mR, char origen, char destino);
+
+void Rou(map <char,Enrutador> &mR, char nuevo);
 
 int str2int(string a);                                     //convierte un string a un numero entero
 

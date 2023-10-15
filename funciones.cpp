@@ -12,6 +12,8 @@ int menu(){
     cout<<"3. Insertar enlace entre enrutadores. "<<endl;
     cout<<"4. Editar enlace entre enrutadores. "<<endl;
     cout<<"5. Eliminar enlace entre enrutadores. "<<endl;
+    cout<<"6. Agregar un enrutador a la red. "<<endl;
+    cout<<"7. Eliminar un enrutador de la red. "<<endl;
     cout<<"0. Para finalizar."<<endl;
 
     cout<<"Ingrese la opcion deseada: "; cin>>x;
@@ -22,9 +24,10 @@ int menuRED(){
     int x;
 
     cout<<"---------- Menue de RED ----------"<<endl;
-    cout << " 1. Cargar la red guardada en el archivo txt. " << endl;
+    cout<<"1. Cargar la red guardada en el archivo txt. "<<endl;
+    cout<<"2. Crear la red agregando todos los enrutadores. "<<endl;
 
-    cout << " Escoga la opcion deseada: "; cin>>x;
+    cout<<"Escoga la opcion deseada: "; cin>>x;
 
     return x;
 }
@@ -47,7 +50,6 @@ void iniciarenrutador(map <char,Enrutador> &mR){
         archivo.get(s);
         txt.push_back(s);
     }
-
 
     txt.pop_back(); // eliminar el ultimo caracter
     archivo.close();
@@ -217,10 +219,64 @@ void deleE_R(map <char,Enrutador> &mR){
         cout<<"El enlace "<<origen<<"-"<<destino<<" no es posible eliminarlo por que no a sido creado. "<<endl;
 }
 
+void addR(map <char,Enrutador> &mR){
+    char nuevo;
+    cout<<endl<<"Ingrese el identificador del router a agregar: "; cin>>nuevo;
 
+    Rou(mR, nuevo);
+}
 
+void deleR(map <char,Enrutador> &mR){
+    char nombre;
+    map <char,Enrutador>::iterator rf;
+    map <char, int>::iterator rs;
 
+    cout<<"Ingrese el identificador del enrutador a eliminar: "; cin>>nombre;
 
+    rf = mR.find(nombre);
+    if(rf == mR.end()) cout<<"El enrutador "<<nombre<<" no esta en la red.";
+
+    else{
+        mR.erase(nombre);
+        cout<<"El enrutador "<<nombre<<" fue eliminado de la red"<<endl;
+
+        for(rf = mR.begin(); rf != mR.end(); rf++){        //  eliminar los enlaces con el enrutador eliminado
+            rs = (rf->second.cos).find(nombre);                      // se busca la tabla de enrutamiento de router
+
+            if(rs != (rf->second.cos).end()) (rf->second.cos).erase(nombre);
+        }
+    }
+}
+
+void addRED(map <char,Enrutador> &mR){
+    int n;
+    char nuevo;
+
+    cout<<"Ingrese el numero de Enrutadores para crear la red: "; cin>>n;
+
+    for(int i=1; i<=n; i++){
+        cout<<endl<<"Ingrese el identificador del router "<<i<<" a agregar: "; cin>>nuevo;
+        Rou(mR, nuevo);
+    }
+}
+
+void Rou(map <char,Enrutador> &mR, char nuevo){
+
+    map <char,Enrutador>::iterator rf;
+    Enrutador router;
+
+    rf = mR.find(nuevo);
+    if( !(rf == mR.end()) ){
+        cout<<"El router "<<nuevo<<" ya existe en la red " << endl;
+        return;
+    }
+    else{
+        mR.insert(pair<char, Enrutador>(nuevo, router));   // añade nuevo objeto en mR con la clave nuevo y valor 'router'
+        mR[nuevo].addenlace(nuevo,0);                      // crear enlace de nuevo con nuevo de costo 0
+
+        cout<<"El router "<<nuevo<<" a sido ingresado a la red. "<<endl;
+    }
+}
 
 int verifiE_R(map <char,Enrutador> &mR, char origen, char destino){
     int x=0;

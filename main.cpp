@@ -23,11 +23,13 @@ int main(){
     while(opcionred == 1 || opcionred==2){
         if(opcionred==1){
             iniciarenrutador(mR);
-            opcionred = 0;}
+            opcionred=0;}
 
-        else{ cout<<"Opcion para generar red aleatoriamente"<<endl;
-            opcionred=0;
-        }
+        else if(opcionred==2){
+            addRED(mR);
+            opcionred=0;    }
+
+        else cout<<"Opcion para generar red aleatoria"<<endl;
     }
 
     while(opcion!=0){
@@ -56,9 +58,15 @@ int main(){
         else if(opcion==5)
             deleE_R(mR);
 
+        else if(opcion==6)
+            addR(mR);
+
+        else if(opcion==7)
+            deleR(mR);
+
+
         else if(opcion==0)
             cout<<"El programa a finalizado."<<endl;
-
 
         else cout<<"Opcion incorrecta."<<endl;
     }
