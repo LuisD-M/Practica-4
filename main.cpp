@@ -20,17 +20,14 @@ int main(){
 
     opcionred= menuRED();
 
-    while(opcionred == 1 || opcionred==2){
-        if(opcionred==1){
-            iniciarenrutador(mR);
-            opcionred=0;}
+    if(opcionred==1)
+        iniciarenrutador(mR);
 
-        else if(opcionred==2){
-            addRED(mR);
-            opcionred=0;    }
+    else if(opcionred==2)
+        addRED(mR);
 
-        else cout<<"Opcion para generar red aleatoria"<<endl;
-    }
+    else Redaleatoria(mR);
+
 
     while(opcion!=0){
         cout<<endl;
@@ -64,6 +61,8 @@ int main(){
         else if(opcion==7)
             deleR(mR);
 
+        else if(opcion==8)
+            mejorcamino(mR);
 
         else if(opcion==0)
             cout<<"El programa a finalizado."<<endl;

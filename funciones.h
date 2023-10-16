@@ -29,8 +29,12 @@ int verifiE_R(map <char,Enrutador> &mR, char origen, char destino);
 
 void Rou(map <char,Enrutador> &mR, char nuevo);
 
+void Redaleatoria(map <char,Enrutador> &mR);
+
+void mejorcamino(map <char,Enrutador> mR);
+
 int str2int(string a);                                     //convierte un string a un numero entero
 
-string int2str(int a);                         //convierte un un numero entero a un string
+string int2str(int a);                                    //convierte un un numero entero a un string
 
 #endif // FUNCIONES_H

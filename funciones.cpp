@@ -14,6 +14,7 @@ int menu(){
     cout<<"5. Eliminar enlace entre enrutadores. "<<endl;
     cout<<"6. Agregar un enrutador a la red. "<<endl;
     cout<<"7. Eliminar un enrutador de la red. "<<endl;
+    cout<<"8. Mejor camino entre enrutadores. "<<endl;
     cout<<"0. Para finalizar."<<endl;
 
     cout<<"Ingrese la opcion deseada: "; cin>>x;
@@ -21,13 +22,19 @@ int menu(){
 }
 
 int menuRED(){
-    int x;
+    int x=0;
 
     cout<<"---------- Menue de RED ----------"<<endl;
     cout<<"1. Cargar la red guardada en el archivo txt. "<<endl;
     cout<<"2. Crear la red agregando todos los enrutadores. "<<endl;
+    cout<<"3. Generar la red aleatoriamente. "<<endl;
 
     cout<<"Escoga la opcion deseada: "; cin>>x;
+
+    while((x<1) || (x>3)){
+        cout<<"La opcion no es correcta."<<endl;
+        cout<<"Escoga una opcion correcta: "; cin>>x;
+    }
 
     return x;
 }
@@ -298,6 +305,123 @@ int verifiE_R(map <char,Enrutador> &mR, char origen, char destino){
 
     return x;
 }
+
+void Redaleatoria(map <char,Enrutador> &mR){
+    map <char,Enrutador>::iterator rf;
+    Enrutador ru;
+    int nodos,conexiones,costo;
+    char nodoEnlace;
+    bool ban=1;
+    string datos="";
+    srand(time(NULL));
+    nodos=3+rand()%(9-3);
+    char *red= new char[nodos];
+
+    for(int i=0; i < nodos;){                                    // crear cantidad nombres para enrutadores guarda en red
+        ban=rand()%2;
+
+        if(ban)nodoEnlace = char(65+rand()%(91-65));
+        else nodoEnlace = char(97+rand()%(123-97));
+
+        ban = 1;
+
+        for(int j = 0;j<nodos;j++) if(red[j] == nodoEnlace) ban=0;
+
+        if(ban){
+            red[i]=nodoEnlace;
+            i++;
+        }
+    }
+
+    for(int i=0; i<nodos; i++){
+        mR.insert(pair<char,Enrutador>(red[i],ru));
+        mR[red[i]].addenlace(red[i],0);
+    }
+
+    for(rf = mR.begin(); rf != mR.end(); rf++){
+        conexiones = 1 + rand()%(nodos-1);
+
+        for(int i=0; i < conexiones; i++){
+            nodoEnlace = red[rand()%nodos];
+            costo = 1+rand()%(999);
+
+            rf->second.addenlace(nodoEnlace,costo);
+            mR[nodoEnlace].addenlace(rf->first,costo);
+        }
+
+    }
+}
+
+void mejorcamino(map <char,Enrutador> mR){
+    map<char,Enrutador>::iterator rf;
+    map<char, int>::iterator rs;
+    int temp;
+
+    int matriz_1[mR.size()][mR.size()];                             // matriz para costos entre los routers
+    int matriz_cop[mR.size()][mR.size()];                           //matriz costos copia para encntrar ruta
+    char emi, rec, nodo, matriz_2[mR.size()][mR.size()];           //matriz almacena nodos de la red
+
+    for(int i=0; i<mR.size(); i++){
+        rf = mR.begin();
+        for(int j=0; j<mR.size(); j++){
+            matriz_2[i][j] = rf->first;                           //se asigna el caracter del en la posición j del mapa
+            rf++;
+        }
+    }
+
+    rf = mR.begin();
+    for(int i=0; i<mR.size(); i++){
+        for(int j=0; j<mR.size(); j++){
+            if( (rf->second.cos).find(matriz_2[i][j]) == (rf->second.cos).end() ){   // verifica si el nombre no se encontró
+                matriz_1[i][j] =-1;
+                matriz_cop[i][j] =-1;}
+            else{                                                                // si el nombre se encotro, asigna el costo
+                matriz_1[i][j] = (rf->second.cos)[matriz_2[i][j]];
+                matriz_cop[i][j] = (rf->second.cos)[matriz_2[i][j]];}
+        }
+        rf++;
+    }
+
+    for(int k=0;k<mR.size();k++){                                    // algoritmo de Floyd-Warshall
+        nodo = matriz_2[k][k];
+        for(int i=0; i<mR.size(); i++){
+            for(int j=0; j<mR.size(); j++){
+                if(matriz_1[i][k] >= 0 && matriz_1[k][j] >= 0){
+                    temp=matriz_1[i][k]+matriz_1[k][j];
+                    if(temp<matriz_cop[i][j] || matriz_cop[i][j]==-1){
+                        matriz_cop[i][j] = temp;
+                        matriz_2[i][j] = nodo;
+                    }
+                }
+            }
+        }
+    }
+
+    map <char,int> enl;
+    rf=mR.begin();
+    for(int i=0;i<mR.size();i++,rf++)
+        enl.insert(pair<char,int>(rf->first,i));
+
+    cout<<"Router de origen: "; cin>>emi;
+    cout<<"Router de destino: "; cin>>rec;
+
+    if(enl.find(emi)==enl.end() || enl.find(rec)==enl.end()){
+        cout<<"El router de origen o destino no existen";
+        return;}
+
+    cout<<"El camino optimo para ir de " << emi << " hasta " << rec << " es: ";
+    cout << emi << "->";
+    temp = enl[rec];
+    while(matriz_2[temp][enl[emi]]!=rec && matriz_2[temp][enl[emi]]!=emi){
+        cout<<matriz_2[temp][enl[emi]]<<"->";
+        temp=enl[matriz_2[temp][enl[emi]]];
+    }
+    cout<<rec<<" tiene un costo de = "<<matriz_cop[(enl[emi])][(enl[rec])]<<endl;
+}
+
+
+
+
 
 int str2int(string a){
     int b,l,d=1,c=0;
