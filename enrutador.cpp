@@ -20,19 +20,16 @@ bool Enrutador::editenlace(char enlace, int costo_nuevo){
 
 void Enrutador::verenrutador(char rut){
 
-    int j=cos.size();
-
     cout <<"Enrutador "<<rut<<", tabla de enrutamiento.  "<<endl<< "  ";
 
-    for(r=cos.begin();r!=cos.end();r++) cout << ' ' << r->first << "  ";
+    for(r=cos.begin();r!=cos.end();r++) cout<<' '<<r->first<<"  ";
 
     cout << endl << rut <<"|";
 
     for(r=cos.begin() ; r!=cos.end() ; r++){
         if((r->second)<10) cout << ' ' << r->second << "  ";
-        else if(((r->second)/10)<10) cout << ' ' << r->second << " ";
-        else if(((r->second)/100)<10) cout << r->second << " ";
+        else if(((r->second)/10)<10) cout<<' '<<r->second<< " ";
+        else if(((r->second)/100)<10) cout<<r->second<<" ";
     }
-
     cout<<endl;
 }

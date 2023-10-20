@@ -104,7 +104,7 @@ void iniciarenrutador(map <char,Enrutador> &mR){
 
 }
 
-void vertablaRed(map <char,Enrutador> &mR){
+void vertablaRed(map <char,Enrutador> &mR){  //Imprime toda la tabla de la red
     string list = "";
     int l = mR.size();
 
@@ -112,28 +112,28 @@ void vertablaRed(map <char,Enrutador> &mR){
     map <char,Enrutador>::iterator rf;
     map <char, int>::iterator rs;
 
-    for(rf = mR.begin(); rf != mR.end(); rf++) list.push_back(rf->first);
+    for(rf = mR.begin(); rf != mR.end(); rf++) list.push_back(rf->first);           //guarda los identificadores en la lista
 
-    cout << endl << ' ' << "    ";
+    cout<<endl<<' '<<"    ";
 
-    for(rf=mR.begin();rf != mR.end(); rf++) cout<<' ' << rf->first << "  ";
+    for(rf=mR.begin();rf != mR.end(); rf++) cout<<' '<<rf->first<<"  ";
 
-    cout << endl;
+    cout<<endl;
     cout<<endl;
 
-    for(rf = mR.begin(); rf != mR.end(); rf++){
-        cout << "  " << rf->first << "| ";
+    for(rf = mR.begin(); rf != mR.end(); rf++){                                    //Ciclo para recorrer el mapa
+        cout<<"  "<<rf->first<< "| ";
 
-        fs=rf->second.cos;
+        fs=rf->second.cos;                                                       //guarda el mapa cos en fs para compararlo
         rs=fs.begin();
 
-        for(int j=0; j<l; j++){
+        for(int j=0; j<l; j++){                                                  // Recorre las las columnas añadiendo costo
 
-            if(rs->first==list[j]){
+            if(rs->first==list[j]){                                            // Si el edintificador se encuentra, añade costo
                 if((rs->second)<10) cout<<' '<<rs->second<<"  ";
                 else if(((rs->second)/10)<10)  cout << ' ' << rs->second << " ";
                 else if(((rs->second)/100)<10) cout << rs->second << " ";
-                rs++;
+                rs++;                                                          // aumenta el iterador del mapa fs para recorrelo
             }
             else cout << " -  ";
         }
@@ -141,7 +141,7 @@ void vertablaRed(map <char,Enrutador> &mR){
     }
 }
 
-void addE_R(map <char,Enrutador> &mR){
+void addE_R(map <char,Enrutador> &mR){  //Añadir enlace
     char origen, destino;
     int x, costo=0;
     map <char,Enrutador>::iterator rf;
@@ -149,7 +149,7 @@ void addE_R(map <char,Enrutador> &mR){
     cout<<"Ingrese el enrutador de origen: "; cin>>origen;
     cout<<"Ingrese el enrutador de destino: "; cin>>destino;
 
-    x=verifiE_R(mR, origen, destino);
+    x=verifiE_R(mR, origen, destino);                               // Verifica que los enrutadores se encuentren en la red
 
     if(x==1)    return;
     else if(x==2)   return;
@@ -157,9 +157,9 @@ void addE_R(map <char,Enrutador> &mR){
     else cout<<endl;
 
     rf = mR.find(origen);
-    auto r = rf->second.cos.find(destino);
+    auto r = rf->second.cos.find(destino);  // r se le lleva el valor de costo del mapa del destino si lo tiene.
 
-    if (r != rf->second.cos.end())
+    if (r != rf->second.cos.end())        // busca si r esta o no en el mapa, si no esta lo agregar.
         cout<<"El enlace "<<origen<<"-"<<destino<<" ya se encuentra establecido. "<<endl;
 
     else{
@@ -171,7 +171,7 @@ void addE_R(map <char,Enrutador> &mR){
 
 }
 
-void editE_R(map <char,Enrutador> &mR){
+void editE_R(map <char,Enrutador> &mR){ //Editar el costo de un enlace
     char origen, destino;
     int x, costo=0;
     map <char,Enrutador>::iterator rf;
@@ -179,7 +179,7 @@ void editE_R(map <char,Enrutador> &mR){
     cout<<"Ingrese el enrutador de origen: "; cin>>origen;
     cout<<"Ingrese el enrutador de destino: "; cin>>destino;
 
-    x=verifiE_R(mR, origen, destino);
+    x=verifiE_R(mR, origen, destino);                                  //verifica que los enrutadores esten en la red
 
     if(x==1)    return;
     else if(x==2)   return;
@@ -189,7 +189,7 @@ void editE_R(map <char,Enrutador> &mR){
     rf = mR.find(origen);
     auto r = rf->second.cos.find(destino);
 
-    if (r != rf->second.cos.end()){
+    if (r != rf->second.cos.end()){   // valor del origuen es igual al de destino no esta el enlace
         cout<<"Ingrese el nuevo costo del enlace entre "<<origen<<"-"<<destino<<" : "; cin>>costo;
         mR[origen].editenlace(destino,costo);
         mR[destino].editenlace(origen,costo);
@@ -199,7 +199,7 @@ void editE_R(map <char,Enrutador> &mR){
         cout<<"El enlace "<<origen<<"-"<<destino<<" aun no ce encuentra agregado."<<endl;
 }
 
-void deleE_R(map <char,Enrutador> &mR){
+void deleE_R(map <char,Enrutador> &mR){ //eliminar enlance
     char origen, destino;
     int x;
     map <char,Enrutador>::iterator rf;
@@ -219,21 +219,21 @@ void deleE_R(map <char,Enrutador> &mR){
 
     if (r != rf->second.cos.end()){
         cout<<"El enlace "<<origen<<"-"<<destino<<" a sido eliminado. "<<endl;
-        (mR[origen].cos).erase(destino);
+        (mR[origen].cos).erase(destino);                                          //elimina el enlace
         (mR[destino].cos).erase(origen);
     }
     else
         cout<<"El enlace "<<origen<<"-"<<destino<<" no es posible eliminarlo por que no a sido creado. "<<endl;
 }
 
-void addR(map <char,Enrutador> &mR){
+void addR(map <char,Enrutador> &mR){  //añade enrutador a la red
     char nuevo;
     cout<<endl<<"Ingrese el identificador del router a agregar: "; cin>>nuevo;
 
     Rou(mR, nuevo);
 }
 
-void deleR(map <char,Enrutador> &mR){
+void deleR(map <char,Enrutador> &mR){  // elimina enrutador de la red
     char nombre;
     map <char,Enrutador>::iterator rf;
     map <char, int>::iterator rs;
@@ -241,21 +241,21 @@ void deleR(map <char,Enrutador> &mR){
     cout<<"Ingrese el identificador del enrutador a eliminar: "; cin>>nombre;
 
     rf = mR.find(nombre);
-    if(rf == mR.end()) cout<<"El enrutador "<<nombre<<" no esta en la red.";
+    if(rf == mR.end()) cout<<"El enrutador "<<nombre<<" no esta en la red.";   //busca si el enrutador no esta a la red
 
-    else{
-        mR.erase(nombre);
+    else{                                                                   // si no llega al final, el enrutador si esta
+        mR.erase(nombre);                                                   //elimina enrutador del mapa
         cout<<"El enrutador "<<nombre<<" fue eliminado de la red"<<endl;
 
-        for(rf = mR.begin(); rf != mR.end(); rf++){        //  eliminar los enlaces con el enrutador eliminado
-            rs = (rf->second.cos).find(nombre);                      // se busca la tabla de enrutamiento de router
+        for(rf = mR.begin(); rf != mR.end(); rf++){                  // recorre el mapa para eliminar enlaces con el enrutador
+            rs = (rf->second.cos).find(nombre);                      // rs tiene la tabla enrutamimiento del mapa y busca el enrutador
 
-            if(rs != (rf->second.cos).end()) (rf->second.cos).erase(nombre);
+            if(rs != (rf->second.cos).end()) (rf->second.cos).erase(nombre);  // elimina
         }
     }
 }
 
-void addRED(map <char,Enrutador> &mR){
+void addRED(map <char,Enrutador> &mR){  // crea red de routers
     int n;
     char nuevo;
 
@@ -267,25 +267,25 @@ void addRED(map <char,Enrutador> &mR){
     }
 }
 
-void Rou(map <char,Enrutador> &mR, char nuevo){
+void Rou(map <char,Enrutador> &mR, char nuevo){  // verica exixtencia de router y añade a la red
 
     map <char,Enrutador>::iterator rf;
     Enrutador router;
 
     rf = mR.find(nuevo);
-    if( !(rf == mR.end()) ){
+    if( !(rf == mR.end()) ){                     // si no llega al final, es que lo encontro
         cout<<"El router "<<nuevo<<" ya existe en la red " << endl;
         return;
     }
-    else{
+    else{                                                  // llego al final, no lo encuentra
         mR.insert(pair<char, Enrutador>(nuevo, router));   // añade nuevo objeto en mR con la clave nuevo y valor 'router'
-        mR[nuevo].addenlace(nuevo,0);                      // crear enlace de nuevo con nuevo de costo 0
+        mR[nuevo].addenlace(nuevo,0);                      // crear enlace, con el mismo de 0
 
         cout<<"El router "<<nuevo<<" a sido ingresado a la red. "<<endl;
     }
 }
 
-int verifiE_R(map <char,Enrutador> &mR, char origen, char destino){
+int verifiE_R(map <char,Enrutador> &mR, char origen, char destino){  //verifica que los enrutadores existan
     int x=0;
     map <char,Enrutador>::iterator rf;
 
@@ -424,7 +424,7 @@ void mejorcamino(map <char,Enrutador> mR){
 
 
 int str2int(string a){
-    int b,l,d=1,c=0;
+    int b,l,d=1,c=0;                         //Pasa de string a entero
     l=a.length();
     for(int i=l-1;i>=0;i--){
         b=a[i]-48;
@@ -435,12 +435,12 @@ int str2int(string a){
 }
 
 string int2str(int a){
-    int c=0,i=1;
+    int c=0,i=1;                          //convierte entero a string
     char e;
     string b;
-    for(;(a/i);i=i*10)
+    for(;(a/i);i=i*10)                   //ejecuta mientras a sea mayor que i, contar ciffras
         c++;
-    for(int j=0;j<c;j++){
+    for(int j=0;j<c;j++){               //convierte cada cifra a un string y lo agrega a b.
         i/=10;
         e=(a/i)+48;
         b.push_back(e);

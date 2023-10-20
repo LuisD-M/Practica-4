@@ -15,8 +15,8 @@ int main(){
     int opcion=1, opcionred;
     char a;
 
-    map <char,Enrutador> mR;              // ff             //Se define el mapa que contiene los routers mR
-    map <char,Enrutador>::iterator iR;    //rf             // Se define el iterador sobre ese mapa IR
+    map <char,Enrutador> mR;                                      //Se define el mapa que contiene los ENrutadores
+    map <char,Enrutador>::iterator iR;                            // Se define el iterador sobre ese mapa
 
     opcionred= menuRED();
 
@@ -24,16 +24,16 @@ int main(){
         iniciarenrutador(mR);
 
     else if(opcionred==2)
-        addRED(mR);
+        addRED(mR);                                                                   //ya
 
     else Redaleatoria(mR);
 
 
-    while(opcion!=0){
+    while(opcion!=0){                                                                  //ya
         cout<<endl;
         opcion = menu();
 
-        if(opcion==1)
+        if(opcion==1)                                                                   //ya
             vertablaRed(mR);
 
         else if(opcion==2){
@@ -42,27 +42,27 @@ int main(){
 
             iR = mR.find(a);
 
-            if (!(iR==mR.end())) iR->second.verenrutador(a);
+            if (!(iR==mR.end())) iR->second.verenrutador(a);                           //ya
             else cout << "El enrutador ingresado no esta en la red " << endl;
         }
 
-        else if(opcion==3)
+        else if(opcion==3)                                                              //ya
             addE_R(mR);
 
-        else if(opcion==4)
+        else if(opcion==4)                                                             //ya
             editE_R(mR);
 
         else if(opcion==5)
-            deleE_R(mR);
+            deleE_R(mR);                                                               //ya
 
         else if(opcion==6)
-            addR(mR);
+            addR(mR);                                                                  //ya
 
         else if(opcion==7)
-            deleR(mR);
+            deleR(mR);                                                                //ya
 
         else if(opcion==8)
-            mejorcamino(mR);
+            mejorcamino(mR);                                                        //ultimo
 
         else if(opcion==0)
             cout<<"El programa a finalizado."<<endl;
